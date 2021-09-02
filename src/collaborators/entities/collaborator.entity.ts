@@ -3,11 +3,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { v4 as uuidv4 } from 'uuid';
+import { Knowledge } from './knowledges.entity';
 
 @Entity('collaborators')
 export class Collaborator {
@@ -38,6 +41,10 @@ export class Collaborator {
 
   @CreateDateColumn()
   created_at: Date;
+
+  @ManyToMany(() => Knowledge)
+  @JoinTable()
+  knowledges: Knowledge[];
 
   @BeforeInsert()
   generatedId() {

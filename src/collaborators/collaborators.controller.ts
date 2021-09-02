@@ -14,4 +14,9 @@ export class CollaboratorsController {
   findOne(@Param() name: string) {
     return this.collaboratorService.findOne(name);
   }
+
+  @Get('knowledges')
+  findKnowledges() {
+    return this.collaboratorService.findKnowledges();
+  }
 }
