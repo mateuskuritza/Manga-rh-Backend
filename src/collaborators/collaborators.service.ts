@@ -1,6 +1,11 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateCollaboratorDto } from './dto/create-collaborator.dto';
 import { Collaborator } from './entities/collaborator.entity';
 import { Knowledge } from './entities/knowledges.entity';
 
@@ -34,5 +39,26 @@ export class CollaboratorsService {
     } catch {
       throw new InternalServerErrorException();
     }
+  }
+
+  async create(newCollaborator: CreateCollaboratorDto) {
+    try {
+      const knowledges = await Promise.all(
+        newCollaborator.knowledges.map((id) => this.preloadKnowledgeById(id)),
+      );
+      const collaborator = await this.collaboratorRepository.save({
+        ...newCollaborator,
+        knowledges,
+      });
+
+      return collaborator;
+    } catch {
+      throw new ConflictException('Existing CPF or invalid knowledge ID');
+    }
+  }
+
+  private async preloadKnowledgeById(id: number): Promise<Knowledge> {
+    const knowledge = await this.knowledgesRepository.findOne({ id });
+    return knowledge;
   }
 }
