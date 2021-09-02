@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { CollaboratorsModule } from './collaborators/collaborators.module';
 import * as path from 'path';
 
 @Module({
@@ -20,8 +19,9 @@ import * as path from 'path';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    CollaboratorsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
