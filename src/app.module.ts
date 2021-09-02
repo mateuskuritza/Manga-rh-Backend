@@ -25,6 +25,7 @@ import * as path from 'path';
         },
       },
     }),
+    CollaboratorsModule,
   ],
   controllers: [],
   providers: [],
