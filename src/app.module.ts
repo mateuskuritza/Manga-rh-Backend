@@ -18,8 +18,13 @@ import * as path from 'path';
       url: process.env.DATABASE_URL,
       autoLoadEntities: true,
       synchronize: true,
+      ssl: true,
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      },
     }),
-    CollaboratorsModule,
   ],
   controllers: [],
   providers: [],
