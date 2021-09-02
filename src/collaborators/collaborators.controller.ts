@@ -25,4 +25,14 @@ export class CollaboratorsController {
   create(@Body() newCollaborator: CreateCollaboratorDto) {
     return this.collaboratorService.create(newCollaborator);
   }
+
+  @Post('collaborator/:id/validate')
+  validate(@Param() id: string) {
+    return this.collaboratorService.validate(id);
+  }
+
+  @Post('collaborator/:id/unvalidate')
+  unvalidate(@Param() id: string) {
+    return this.collaboratorService.unvalidate(id);
+  }
 }

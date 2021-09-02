@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -60,5 +61,19 @@ export class CollaboratorsService {
   private async preloadKnowledgeById(id: number): Promise<Knowledge> {
     const knowledge = await this.knowledgesRepository.findOne({ id });
     return knowledge;
+  }
+
+  async validate(id: string) {
+    const collaborator = await this.collaboratorRepository.findOne(id);
+    if (!collaborator) throw new NotFoundException('Id not found');
+    collaborator.valid = true;
+    await this.collaboratorRepository.save(collaborator);
+  }
+
+  async unvalidate(id: string) {
+    const collaborator = await this.collaboratorRepository.findOne(id);
+    if (!collaborator) throw new NotFoundException('Id not found');
+    collaborator.valid = false;
+    await this.collaboratorRepository.save(collaborator);
   }
 }
