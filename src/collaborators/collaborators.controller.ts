@@ -1,5 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CollaboratorsService } from './collaborators.service';
+import { CreateCollaboratorDto } from './dto/create-collaborator.dto';
 
 @Controller()
 export class CollaboratorsController {
@@ -18,5 +19,10 @@ export class CollaboratorsController {
   @Get('knowledges')
   findKnowledges() {
     return this.collaboratorService.findKnowledges();
+  }
+
+  @Post('collaborator')
+  create(@Body() newCollaborator: CreateCollaboratorDto) {
+    return this.collaboratorService.create(newCollaborator);
   }
 }
